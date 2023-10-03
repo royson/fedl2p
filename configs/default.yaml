@@ -1,0 +1,15 @@
+wandb_args:
+  # name is defined in top-level.
+  entity: camlsys
+  dir: '.'
+vram : 2500 # MB
+cpus : 2
+debug: false
+run: true
+save_run_id: true # saving run id in f'{save_id_path}/run_ids.pkl'
+save_id_path: './slurm_runs'
+seed: 1
+cpu_threads: 10
+simulation:
+  ray_init_args:
+    include_dashboard: False

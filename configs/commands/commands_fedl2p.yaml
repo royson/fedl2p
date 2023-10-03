@@ -1,0 +1,87 @@
+server:
+  class: src.server.Server
+  client_manager:
+    class: src.server.client_managers.SimpleClientManager
+  strategy:
+    class: src.server.strategies.FedAvg
+    args:
+      min_fit_clients: 25 # clients_per_round
+      log: False
+    valuation: null
+models:
+  net:
+    args:
+      norm_layer: src.models.model_utils.KLDBatchNorm2d
+  bn_net:
+    class: src.models.BNNet
+    mode: 'layerwise'
+    args: {}
+    optimizer:
+      # class: torch.optim.Adam
+      # args: 
+      #   betas: !!python/tuple [0.0,0.999]
+      class: torch.optim.SGD
+      args: {}
+    init:
+      gain_init: 0.1
+      bias_init: 0.5
+  lr_net:
+    class: src.models.ClampLRNet
+    mode: 'layerwise'
+    args: 
+      max_limit: 1000.0
+    optimizer:
+      class: torch.optim.SGD
+      args: {}
+    init:
+      gain_init: 0.1
+      bias_init: 1.0
+app:
+  class: src.apps.FedL2PClassificationApp
+  args:
+    federated_learning: true
+    patience: 50
+  run:
+    num_rounds: 100
+    test_every_n: null
+  on_evaluate:
+    eval_epochs: [5]
+    finetune_epochs: [5]
+    lr: 0.01
+  on_fit:
+    split_train: False
+    start_inner_lr: 0.01
+    inner_lr_decay:
+      steps: [] 
+      factors: []
+    start_bn_net_lr: 0.001 
+    bn_net_lr_decay: null
+    start_mask_net_lr: 0.001 
+    mask_net_lr_decay: null
+    start_lr_net_lr: 0.001
+    lr_net_lr_decay: null
+    start_stop_net_lr: 0.001
+    stop_net_lr_decay: null
+  client:
+    class: src.apps.clients.FedL2PClassificationClient
+    args: 
+      batch_size: 32
+      outer_loop_epochs: 3
+      inner_loop_epochs: 5
+      meta_algorithm: 'IFT'
+      augment_validation: False
+      clamp_outer_gradients: 1.
+      meta_nets_rounds: # no. of rounds to train each meta_net
+        bn_net: 100
+        lr_net: 100
+      learnable_lrs: True
+      hypergrad: 
+        class: src.apps.clients.client_utils.Hypergrad
+        args:
+          learning_rate: 0.1
+          truncate_iter: 3
+wandb_args:
+  project: 'fedl2p'
+  group: 'commands_fedl2p' 
+vram: 9000
+

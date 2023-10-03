@@ -1,0 +1,19 @@
+server:
+  class: src.server.Server
+  client_manager:
+    class: src.server.client_managers.SimpleClientManager
+  strategy:
+    class: src.server.strategies.FedAvg
+    args:
+      min_fit_clients: 10 # clients_per_round
+      log: False
+    valuation: null
+app:
+  client:
+    class: src.apps.clients.ClassificationClient
+    args: 
+      exclude_layers:
+        - net.fc.weight
+        - net.fc.bias
+wandb_args:
+  group: 'cifar10_fedbabu' 

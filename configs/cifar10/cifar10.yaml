@@ -1,0 +1,52 @@
+data:
+  class: src.data.Cifar10Dataset
+  args:
+    path_to_data: /datasets/FEDL2P
+    dataset_fl_root: /datasets/FEDL2P/FL/cifar10_fedl2p
+    lda_alpha: null # must be defined
+    train_alpha: null
+    test_alpha: null
+    val_ratio: 0
+    reset: False
+models:
+  net:
+    class: src.models.Net_Cifar_Resnet18
+    args:
+      num_classes: 10
+    optimizer:
+      class: torch.optim.SGD
+      args:
+        momentum: 0.0
+        weight_decay: !!float 0.0
+app:
+  class: src.apps.ClassificationApp
+  args: {}
+  on_fit:
+    start_lr: 0.1
+    lr_decay:
+      steps: [250, 375] # leave this empty [] for an exponential LR decay
+      # steps: []
+      factors: [0.1, 0.1]
+      # factors: []
+    # end_lr : 0.001 # it only matters when using exp LR decay
+  on_evaluate:
+    freeze_bn_buffer: False
+    finetune_epochs: [1,2,3,4,5]
+    lr: 0.001
+  eval_fn:
+    batch_size: 32 # different batch size for test
+    centralized_eval: True
+  run:
+    num_rounds: 500
+    test_every_n: 1 # global_eval_every_n_rounds
+  client:
+    class: src.apps.clients.ClassificationClient
+    args: 
+      local_epochs : 1
+      batch_size : 32
+simulation:
+  num_clients: 1000
+wandb_args:
+  # name is defined in top-level.
+  entity: camlsys
+  project: 'fedl2p'

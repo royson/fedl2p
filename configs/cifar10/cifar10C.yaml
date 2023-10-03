@@ -1,0 +1,19 @@
+server:
+  strategy:
+    args:
+      min_fit_clients: 25 # clients_per_round
+data:
+  class: src.data.Cifar10CDataset
+  args:
+    path_to_data: /datasets/FEDL2P/CIFAR-10-C
+    dataset_fl_root: /datasets/FEDL2P/FL/cifar10_fedl2p
+    severity: 2
+    corruption_type: sub
+    val_ratio: 0.2
+    split_ratio: 0.2
+    reset: False
+app:
+  args:
+    patience: 100
+simulation:
+  num_clients: 250

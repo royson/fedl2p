@@ -1,0 +1,41 @@
+data:
+  class: src.data.OfficeDataset
+  args:
+    path_to_data: /datasets/FEDL2P/office_caltech_10
+    dataset_fl_root: /datasets/FEDL2P/FL
+    val_ratio: 0.2
+models:
+  net:
+    class: src.models.Net_Resnet18
+    args:
+      num_classes: 10
+app:
+  class: src.apps.ClassificationApp
+  on_fit:
+    start_lr: 0.01
+    lr_decay:
+      steps: []
+      factors: []
+    end_lr : 0.01 # it only matters when using exp LR decay
+  on_evaluate:
+    freeze_bn_buffer: False
+    finetune_epochs: [1,2,3,4,5]
+    lr: 0.01
+  eval_fn:
+    batch_size: 32 # different batch size for test
+    centralized_eval: True
+  run:
+    num_rounds: 300
+    test_every_n: 1 # global_eval_every_n_rounds
+  client:
+    class: src.apps.clients.ClassificationClient
+    args: 
+      local_epochs : 1
+      batch_size : 32
+simulation:
+  num_clients: 4
+vram: 4500
+wandb_args:
+  # name is defined in top-level.
+  entity: camlsys
+  project: 'fedl2p'

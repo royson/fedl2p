@@ -1,0 +1,6 @@
+# for quick testing runs
+
+wandb_args:
+  project: 'test'
+name: test
+save_run_id: false
