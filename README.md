@@ -75,6 +75,8 @@ python main.py configs/cifar10/cifar10.yaml configs/cifar10/cifar_fedavg.yaml da
 # include additional commands: training with 10 non-IID clients for 10 rounds, sampling 1 client per round.
 python main.py configs/cifar10/cifar10.yaml configs/cifar10/cifar_fedavg.yaml data.args.lda_alpha=\{0.1:10\} simulation.num_clients=10 app.run.num_rounds=10 server.strategy.args.min_fit_clients=1
 
+# With wandb, wandb_path_to_model has the following format: 'entity/project/run_id/path_to_weights'. See https://docs.wandb.ai/ref/python/public-api/api for more details.
+
 # Cifar10 FedL2P using pretrained model on 1000 IID clients
 python main.py configs/cifar10/cifar10.yaml configs/cifar10/cifar_fedl2p.yaml data.args.lda_alpha=\{1000:1000\} app.args.load_model={local_path_to_model OR wandb_path_to_model}
 

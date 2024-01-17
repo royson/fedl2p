@@ -194,7 +194,7 @@ class Checkpoint():
     def load_model_from_run_id(self, wandb_run_path, 
         save_as='latest_weights.pkl'):
         '''
-        Load weights from wandb_run_path which consists of 'entity/group/run_id/{path}'
+        Load weights from wandb_run_path which consists of 'entity/project/run_id/{path}'
         '''
         parameters = None
         pretrain_path = f'{self.run_dir}/pretrained_model'
