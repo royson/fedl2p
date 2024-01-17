@@ -48,5 +48,4 @@ simulation:
 vram: 5000
 wandb_args:
   # name is defined in top-level.
-  entity: camlsys
   project: 'fedl2p'

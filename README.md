@@ -61,10 +61,10 @@ All datasets are to be placed in `data.args.path_to_data`. Data is automatically
 
 ```
 python main.py {path_to_yaml_file} # you can pass multiple yaml files and arguments. Later yaml/arguments will take precedence.
-python main.py ./wandb/{wandb_local_run_folder}/files/user_config.yaml # resume a previous run
+python main.py ./wandb/{wandb_local_run_folder}/files/user_config.yaml # resume a previous run (only if sync with wandb)
 ```
 
-Set the maximum GPU memory allocated for each client by overwriting argument `vram`.
+Set the maximum GPU memory allocated for each client by overwriting argument `vram`. Add `wandb_args.mode=disabled` to disable wandb or specify your own wandb entity `wandb_args.entity={your entity}`.
 
 ### CIFAR10 and CIFAR10-C Examples
 

@@ -130,6 +130,7 @@ class FederatedDataset(ABC):
             assert self.lda_alpha is not None, 'dataset is not pre-partitioned. data.args.lda_alpha must be defined.'
             # sort lda_alpha as loading from saved dict might violate the order
             self.lda_alpha = dict(sorted(self.lda_alpha.items(), reverse=True))
+            self.lda_alpha = {str(key): value for key, value in self.lda_alpha.items()}
 
             if self.train_alpha is None:
                 self.train_alpha = list(self.lda_alpha.keys())
