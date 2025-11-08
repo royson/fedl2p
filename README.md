@@ -1,5 +1,7 @@
 # FedL2P: Federated Learning to Personalize
 
+#### Note: If you find this project useful, please check out our other related FL research: [ReeFL (ICML'24)](https://github.com/royson/reefl) and [FedP²EFT (AAAI'26)](https://github.com/SamsungLabs/fedp2eft).
+
 ## Abstract
 > Federated learning (FL) research has made progress in developing algorithms for distributed learning of global models, as well as algorithms for local personalization of those common models to the specifics of each client’s local data distribution. However, different FL problems may require different personalization strategies, and it may not even be possible to define an effective one-size-fits-all personalization strategy for all clients: depending on how similar each client’s optimal predictor is to that of the global model, different personalization strategies may be preferred. In this paper, we consider the federated meta-learning problem of learning personalization strategies. Specifically, we consider meta-nets that induce the batch-norm and learning rate parameters for each client given local data statistics. By learning these meta-nets through FL, we allow the whole FL network to collaborate in learning a customized personalization strategy for each client. Empirical results show that this framework improves on a range of standard hand-crafted personalization baselines in both label and feature shift situations.
 
@@ -103,4 +105,4 @@ python main.py configs/office/office.yaml configs/office/office_fedl2p.yaml app.
 
 # DomainNet FedL2P using pretrained model on 150 non-IID clients ($\alpha=1.0$) 
 python main.py configs/domainnet/domainnet.yaml configs/domainnet/domainnet_fedl2p.yaml app.args.load_model={local_path_to_model} data.args.lda_alpha=\{1.0:150\}
-``` 
+```
